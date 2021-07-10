@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2021 at 03:59 PM
+-- Generation Time: Jul 10, 2021 at 06:04 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -822,6 +822,7 @@ INSERT INTO `materi_bahan_belajars` (`id`, `link`, `name`, `type`, `descriptions
 CREATE TABLE `meets` (
   `id` bigint(20) NOT NULL,
   `class_id` bigint(20) NOT NULL,
+  `mapel_id` bigint(20) NOT NULL,
   `name` varchar(255) NOT NULL,
   `code` varchar(255) NOT NULL,
   `date_start` date NOT NULL,
@@ -829,13 +830,6 @@ CREATE TABLE `meets` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `meets`
---
-
-INSERT INTO `meets` (`id`, `class_id`, `name`, `code`, `date_start`, `date_end`, `created_at`, `updated_at`) VALUES
-(3, 4, 'Dosen1', 'DQNUEWTFFRQYC5C', '2021-07-08', NULL, '2021-07-10 06:48:55', '2021-07-10 06:55:45');
 
 -- --------------------------------------------------------
 
@@ -865,33 +859,33 @@ INSERT INTO `menus` (`id`, `parent_code`, `code`, `name`, `status`, `icon`, `reo
 (2, 'Teacher', '/matapelajaran', 'Mata Pelajaran', 1, 'book', 1, '2021-01-07 02:56:10', '2021-01-07 07:14:57', NULL),
 (3, 'Teacher', '/materi', 'Materi dan Bahan', 1, 'book-open', 2, '2021-01-07 02:56:20', '2021-01-07 07:15:03', NULL),
 (4, 'Teacher', '/absen', 'Absensi Guru', 1, 'activity', 3, '2021-01-07 02:56:20', '2021-01-07 07:15:05', NULL),
-(5, 'Students', 'student', 'Student', 2, NULL, 2, '2021-01-07 06:22:40', '2021-01-07 06:48:31', NULL),
+(5, 'Students', 'student', 'Student', 2, 'book', 2, '2021-01-07 06:22:40', '2021-07-10 15:54:00', NULL),
 (6, 'Students', 'materi_kelas_student', 'Materi dan Bahan', 1, 'book', 1, '2021-01-07 06:22:40', '2021-04-17 08:48:35', NULL),
-(7, 'Kepala Sekolah', 'kepalasekolah', 'Kepala Sekolah', 0, NULL, 3, '2021-01-07 06:37:16', '2021-03-06 13:29:43', NULL),
-(8, 'Kepala Sekolah', 'kepalasekolahh', 'Menu Kepala Sekolah', 0, 'book', 1, '2021-01-07 06:37:31', '2021-03-06 13:29:39', NULL),
-(9, 'Kurikulum', 'kurikulum', 'Kurikulum', 0, NULL, 4, '2021-01-07 06:40:59', '2021-03-06 13:29:33', NULL),
-(10, 'Kurikulum', 'kurikulumm', 'Menu Kurikulum', 0, 'book', 1, '2021-01-07 06:41:11', '2021-03-06 13:29:29', NULL),
-(11, 'Administrator', 'Administrator', 'Administrator', 2, NULL, 1, '2021-03-06 12:31:52', '2021-03-06 13:26:52', NULL),
-(12, 'Setting_Semester', '/Setting_Semester', 'Setting Semester', 1, NULL, 1, '2021-03-06 12:34:21', '2021-03-06 13:20:20', NULL),
-(13, 'Data_Master_Kelas', 'Data_Master_Kelas', 'Data Master Kelas', 1, NULL, 1, '2021-03-06 12:35:06', '2021-03-06 12:35:06', NULL),
-(14, 'Data_Master_Jurusan', 'Data_Master_Jurusan', 'Data Master Jurusan', 1, NULL, 1, '2021-03-06 12:36:17', '2021-03-06 12:36:17', NULL),
-(15, 'Data_Master_Siswa', 'Data_Master_Siswa', 'Data Master Siswa', 1, NULL, 1, '2021-03-06 12:36:46', '2021-03-06 12:36:46', NULL),
-(16, 'Data_Master_Guru', 'Data_Master_Guru', 'Data Master Guru', 1, NULL, 1, '2021-03-06 12:37:54', '2021-03-06 12:37:54', NULL),
-(17, 'Jadwal_Pelajaran', 'Jadwal_Pelajaran', 'Jadwal Pelajaran', 1, NULL, 1, '2021-03-06 12:41:22', '2021-03-06 12:41:22', NULL),
-(18, 'Kompetensi_Inti', 'Kompetensi_Inti', 'Kompetensi Inti', 1, NULL, 1, '2021-03-06 12:41:59', '2021-03-06 12:41:59', NULL),
-(19, 'Kompetensi_Dasar', 'Kompetensi_Dasar', 'Kompetensi Dasar', 1, NULL, 1, '2021-03-06 12:42:22', '2021-03-06 12:42:22', NULL),
-(20, 'Monitoring_Aktivitas_Guru', 'Monitoring_Aktivitas_Guru', 'Monitoring Aktivitas Guru', 1, NULL, 1, '2021-03-06 12:43:02', '2021-03-06 12:43:02', NULL),
-(21, 'Monitoring_Aktivitas_Siswa', 'Monitoring_Aktivitas_Siswa', 'Monitoring Aktivitas Siswa', 1, NULL, 1, '2021-03-06 12:43:41', '2021-03-06 12:43:41', NULL),
-(22, 'Setting_Kelas_Ajar', 'Setting_Kelas_Ajar', 'Setting Kelas Ajar', 0, NULL, 1, '2021-03-06 12:44:13', '2021-06-17 22:13:26', NULL),
-(23, 'Master_KKM', 'Master_KKM', 'Master KKM', 1, NULL, 1, '2021-03-06 12:45:04', '2021-03-06 12:45:04', NULL),
-(24, 'Laporan', 'Laporan', 'Laporan', 0, NULL, 1, '2021-03-06 12:45:53', '2021-06-17 22:13:34', NULL),
-(25, 'Laporan', 'Laporan_Kehadiran_Siswa', 'Laporan Kehadiran Siswa', 0, NULL, 1, '2021-03-06 12:46:43', '2021-06-17 22:13:37', NULL),
-(26, 'Laporan', 'Laporan_Kehadiran_Guru', 'Laporan Kehadiran Guru', 2, NULL, 1, '2021-03-06 12:47:10', '2021-03-06 12:47:10', NULL),
-(27, 'Laporan', 'Cetak_Penilaian', 'Cetak Penilaian', 2, NULL, 1, '2021-03-06 12:47:37', '2021-03-06 12:47:37', NULL),
-(28, 'Tahun_Akademik', 'Tahun_Akademik', 'Tahun Akademik', 1, NULL, 1, '2021-03-06 13:22:17', '2021-03-06 13:27:58', NULL),
-(29, 'DataMasterMapel', 'data_master_mapel', 'Data Master Mata Pelajaran', 1, NULL, 1, '2021-03-06 12:46:43', '2021-03-09 15:31:09', NULL),
-(30, 'Tahun Akademik', '/tahun_akademik', 'Tahun Akademik', 1, NULL, 1, '2021-03-06 12:34:21', '2021-03-06 13:20:20', NULL),
-(31, 'Data Kelas', '/data_kelas', 'Data Kelas', 1, NULL, 1, '2021-03-06 12:34:21', '2021-03-06 13:20:20', NULL);
+(7, 'Kepala Sekolah', 'kepalasekolah', 'Kepala Sekolah', 0, 'book', 3, '2021-01-07 06:37:16', '2021-07-10 15:54:04', NULL),
+(8, 'Kepala Sekolah', 'kepalasekolahh', 'Menu Kepala Sekolah', 0, 'twitch', 1, '2021-01-07 06:37:31', '2021-07-10 16:03:32', NULL),
+(9, 'Kurikulum', 'kurikulum', 'Kurikulum', 0, 'book', 4, '2021-01-07 06:40:59', '2021-07-10 15:54:07', NULL),
+(10, 'Kurikulum', 'kurikulumm', 'Menu Kurikulum', 0, 'shopping-bag', 1, '2021-01-07 06:41:11', '2021-07-10 16:03:07', NULL),
+(11, 'Administrator', 'Administrator', 'Administrator', 2, 'book', 1, '2021-03-06 12:31:52', '2021-07-10 15:54:10', NULL),
+(12, 'Setting_Semester', '/Setting_Semester', 'Setting Semester', 1, 'airplay', 1, '2021-03-06 12:34:21', '2021-07-10 15:56:11', NULL),
+(13, 'Data_Master_Kelas', 'Data_Master_Kelas', 'Master Kelas', 1, 'briefcase', 1, '2021-03-06 12:35:06', '2021-07-10 15:56:55', NULL),
+(14, 'Data_Master_Jurusan', 'Data_Master_Jurusan', 'Master Jurusan', 1, 'clipboard', 1, '2021-03-06 12:36:17', '2021-07-10 15:57:11', NULL),
+(15, 'Data_Master_Siswa', 'Data_Master_Siswa', 'Master Siswa', 1, 'users', 1, '2021-03-06 12:36:46', '2021-07-10 15:57:23', NULL),
+(16, 'Data_Master_Guru', 'Data_Master_Guru', 'Master Guru', 1, 'user', 1, '2021-03-06 12:37:54', '2021-07-10 15:57:48', NULL),
+(17, 'Jadwal_Pelajaran', 'Jadwal_Pelajaran', 'Jadwal Pelajaran', 1, 'gift', 1, '2021-03-06 12:41:22', '2021-07-10 15:58:04', NULL),
+(18, 'Kompetensi_Inti', 'Kompetensi_Inti', 'Kompetensi Inti', 1, 'globe', 1, '2021-03-06 12:41:59', '2021-07-10 15:58:31', NULL),
+(19, 'Kompetensi_Dasar', 'Kompetensi_Dasar', 'Kompetensi Dasar', 1, 'folder', 1, '2021-03-06 12:42:22', '2021-07-10 15:58:36', NULL),
+(20, 'Monitoring_Aktivitas_Guru', 'Monitoring_Aktivitas_Guru', 'Aktivitas Guru', 1, 'alert-octagon', 1, '2021-03-06 12:43:02', '2021-07-10 15:59:12', NULL),
+(21, 'Monitoring_Aktivitas_Siswa', 'Monitoring_Aktivitas_Siswa', 'Aktivitas Siswa', 1, 'aperture', 1, '2021-03-06 12:43:41', '2021-07-10 15:59:29', NULL),
+(22, 'Setting_Kelas_Ajar', 'Setting_Kelas_Ajar', 'Setting Kelas Ajar', 0, 'book', 1, '2021-03-06 12:44:13', '2021-07-10 15:54:53', NULL),
+(23, 'Master_KKM', 'Master_KKM', 'Master KKM', 1, 'bookmark', 1, '2021-03-06 12:45:04', '2021-07-10 15:59:50', NULL),
+(24, 'Laporan', 'Laporan', 'Laporan', 0, 'book', 1, '2021-03-06 12:45:53', '2021-07-10 15:54:53', NULL),
+(25, 'Laporan', 'Laporan_Kehadiran_Siswa', 'Laporan Kehadiran Siswa', 0, 'inbox', 1, '2021-03-06 12:46:43', '2021-07-10 16:02:19', NULL),
+(26, 'Laporan', 'Laporan_Kehadiran_Guru', 'Laporan Kehadiran Guru', 2, 'database', 1, '2021-03-06 12:47:10', '2021-07-10 16:02:00', NULL),
+(27, 'Laporan', 'Cetak_Penilaian', 'Cetak Penilaian', 2, 'clipboard', 1, '2021-03-06 12:47:37', '2021-07-10 16:01:55', NULL),
+(28, 'Tahun_Akademik', 'Tahun_Akademik', 'Tahun Akademik', 1, 'calendar', 1, '2021-03-06 13:22:17', '2021-07-10 16:00:32', NULL),
+(29, 'DataMasterMapel', 'data_master_mapel', 'Master Mata Pelajaran', 1, 'book', 1, '2021-03-06 12:46:43', '2021-07-10 15:54:53', NULL),
+(30, 'Tahun Akademik', '/tahun_akademik', 'Tahun Akademik', 1, 'calendar', 1, '2021-03-06 12:34:21', '2021-07-10 16:01:14', NULL),
+(31, 'Data Kelas', '/data_kelas', 'Data Kelas', 1, 'clock', 1, '2021-03-06 12:34:21', '2021-07-10 16:01:38', NULL);
 
 -- --------------------------------------------------------
 
@@ -1385,13 +1379,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `token`, `verify_token`, `created_at`, `updated_at`, `active`, `hapus`) VALUES
-(1, '4892118481', '$2y$10$VtSxgzGRFmmAxsbOanQJpe4PoQOqtvGJ53RRo1nPuAJpd87rOu8.e', NULL, NULL, NULL, '2021-07-10 06:35:56', 0, 0),
+(1, '4892118481', '$2y$10$VtSxgzGRFmmAxsbOanQJpe4PoQOqtvGJ53RRo1nPuAJpd87rOu8.e', NULL, NULL, NULL, '2021-07-10 08:55:24', 1, 0),
 (2, '9630159739', '$2y$10$jogAhsur6Si7jFJ9IcqBFe9RykIRw0tdqtYl3rMOgtO00MNAFjE3e', NULL, NULL, NULL, '2021-07-08 16:00:11', 0, 0),
 (3, '9630159739', '$2y$10$GT8DC/RyTOe3PvIevhLs3u.PApaxbdtu/ok3tWxqLeJaMv24wDqW.', NULL, NULL, NULL, NULL, 0, 0),
 (4, '2766170294', '$2y$10$8W5XSqBNaGdcUkSSoKTtMeC4bSGL1A9I5sSC0wFjO7fzF630GJyku', NULL, NULL, NULL, '2021-05-30 23:14:38', 0, 0),
 (5, '7724909893', '$2y$10$iZGAwJi3uNiV7d04AoRC3.wqIdXVDITpcVoBSIVLzVjd9nKlGigM.', NULL, NULL, NULL, NULL, 0, 0),
 (6, '901247874124', '$2y$10$zDiaF3oRkHe4/NUyXIb8pe8bpkhoYlDKW4YhjYYOq7NMkZ3gu3w2m', NULL, NULL, '2021-04-19 08:17:36', '2021-07-09 07:41:32', 0, 0),
-(7, '222222', '$2y$10$JWFeuBSaWGMckKr4l3oqee36fXI0DH2BCTudQy8EGMnY5sRIgLsh6', NULL, NULL, '2021-04-19 08:19:29', '2021-07-10 06:36:02', 1, 0),
+(7, '222222', '$2y$10$JWFeuBSaWGMckKr4l3oqee36fXI0DH2BCTudQy8EGMnY5sRIgLsh6', NULL, NULL, '2021-04-19 08:19:29', '2021-07-10 08:55:03', 0, 0),
 (8, '3123124124', '$2y$10$PAyngHaRebsHcTAiH9Ey5O8mttoT8NoY3p/9G5tFn6c2F5QC08asm', NULL, NULL, '2021-04-19 09:00:06', '2021-07-09 07:43:26', 0, 0),
 (9, 'bb', '$2y$10$l5UMlxUD/Iy3hRVprdUC5eaDWMTgoRjwNpnMUUzmRYVO.CZXTZhFu', NULL, NULL, '2021-05-07 12:59:57', '2021-05-07 12:59:57', 0, 0),
 (10, '345345345', '$2y$10$OXFMySihFs3x7zNDkp/duu/.O6PkUnoTWoe8uV67zjLgpp8S/ia0W', NULL, NULL, '2021-06-17 07:22:16', '2021-07-08 20:08:04', 0, 0),
@@ -1898,7 +1892,7 @@ ALTER TABLE `materi_bahan_belajars`
 -- AUTO_INCREMENT for table `meets`
 --
 ALTER TABLE `meets`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `menus`

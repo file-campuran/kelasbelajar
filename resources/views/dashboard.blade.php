@@ -258,7 +258,7 @@
     </div>
 </div>
 <script>
-$('#calendar').pignoseCalendar();
+// $('#calendar').pignoseCalendar();
 
 
 var jurusan_id = null;
