@@ -32,6 +32,15 @@ class AuthController extends BaseController
                 User::where('id', $request->user()->id)->update([
                     'active' => 1
                 ]);
+                $user = User::where('id', $request->user()->id)->with('user_detail')->first();
+
+                $request->session()->put('user', [
+                    'id' => $user->id,
+                    'user_detail_id' => $user->user_detail->id,
+                    'nip' => $user->user_detail->nisn_or_nip,
+                    'name' => $user->user_detail->name,
+                    'username' => $user->username,
+                ]);
                 return redirect()->intended('/dashboard');
             }
             return redirect()->route('login')->with('error', 'Login Fail, Invalid Email/Password');
@@ -39,10 +48,10 @@ class AuthController extends BaseController
             return redirect()->route('login')->with('error', 'Login Fail, Invalid Email/Password');
         }
     }
-    
+
     public function register(Request $request)
     {
-        
+
         User::create([
             'username' => 'admin@admin.com',
             'password' => bcrypt('admin'),
@@ -55,12 +64,12 @@ class AuthController extends BaseController
     public function logout(Request $request)
     {
         Session::flush();
-         User::where('id', $request->user()->id)->update([
-                    'active' => 0
-                ]);
+        User::where('id', $request->user()->id)->update([
+            'active' => 0
+        ]);
         return redirect()->route('login');
     }
-    
+
     public function resetPasswordView()
     {
         return view('pages.auth.reset');
@@ -112,78 +121,81 @@ class AuthController extends BaseController
         ]);
         return redirect()->route('login')->with('success', 'Successfully changed password, please login using new password');
     }
-    
-    public function resetPasswordGet(){
+
+    public function resetPasswordGet()
+    {
         return view('pages.auth.reset');
     }
-    
-    public function resetPasswordPost(){
+
+    public function resetPasswordPost()
+    {
         return redirect()->route('login');
     }
 
-    private function getOS() { 
+    private function getOS()
+    {
 
         global $user_agent;
-    
+
         $os_platform  = "Unknown OS Platform";
-    
+
         $os_array     = array(
-                              '/windows nt 10/i'      =>  'Windows 10',
-                              '/windows nt 6.3/i'     =>  'Windows 8.1',
-                              '/windows nt 6.2/i'     =>  'Windows 8',
-                              '/windows nt 6.1/i'     =>  'Windows 7',
-                              '/windows nt 6.0/i'     =>  'Windows Vista',
-                              '/windows nt 5.2/i'     =>  'Windows Server 2003/XP x64',
-                              '/windows nt 5.1/i'     =>  'Windows XP',
-                              '/windows xp/i'         =>  'Windows XP',
-                              '/windows nt 5.0/i'     =>  'Windows 2000',
-                              '/windows me/i'         =>  'Windows ME',
-                              '/win98/i'              =>  'Windows 98',
-                              '/win95/i'              =>  'Windows 95',
-                              '/win16/i'              =>  'Windows 3.11',
-                              '/macintosh|mac os x/i' =>  'Mac OS X',
-                              '/mac_powerpc/i'        =>  'Mac OS 9',
-                              '/linux/i'              =>  'Linux',
-                              '/ubuntu/i'             =>  'Ubuntu',
-                              '/iphone/i'             =>  'iPhone',
-                              '/ipod/i'               =>  'iPod',
-                              '/ipad/i'               =>  'iPad',
-                              '/android/i'            =>  'Android',
-                              '/blackberry/i'         =>  'BlackBerry',
-                              '/webos/i'              =>  'Mobile'
-                        );
-    
+            '/windows nt 10/i'      =>  'Windows 10',
+            '/windows nt 6.3/i'     =>  'Windows 8.1',
+            '/windows nt 6.2/i'     =>  'Windows 8',
+            '/windows nt 6.1/i'     =>  'Windows 7',
+            '/windows nt 6.0/i'     =>  'Windows Vista',
+            '/windows nt 5.2/i'     =>  'Windows Server 2003/XP x64',
+            '/windows nt 5.1/i'     =>  'Windows XP',
+            '/windows xp/i'         =>  'Windows XP',
+            '/windows nt 5.0/i'     =>  'Windows 2000',
+            '/windows me/i'         =>  'Windows ME',
+            '/win98/i'              =>  'Windows 98',
+            '/win95/i'              =>  'Windows 95',
+            '/win16/i'              =>  'Windows 3.11',
+            '/macintosh|mac os x/i' =>  'Mac OS X',
+            '/mac_powerpc/i'        =>  'Mac OS 9',
+            '/linux/i'              =>  'Linux',
+            '/ubuntu/i'             =>  'Ubuntu',
+            '/iphone/i'             =>  'iPhone',
+            '/ipod/i'               =>  'iPod',
+            '/ipad/i'               =>  'iPad',
+            '/android/i'            =>  'Android',
+            '/blackberry/i'         =>  'BlackBerry',
+            '/webos/i'              =>  'Mobile'
+        );
+
         foreach ($os_array as $regex => $value)
             if (preg_match($regex, $user_agent))
                 $os_platform = $value;
-    
+
         return $os_platform;
     }
-    
-    private function getBrowser() {
-    
+
+    private function getBrowser()
+    {
+
         global $user_agent;
-    
+
         $browser        = "Unknown Browser";
-    
+
         $browser_array = array(
-                                '/msie/i'      => 'Internet Explorer',
-                                '/firefox/i'   => 'Firefox',
-                                '/safari/i'    => 'Safari',
-                                '/chrome/i'    => 'Chrome',
-                                '/edge/i'      => 'Edge',
-                                '/opera/i'     => 'Opera',
-                                '/netscape/i'  => 'Netscape',
-                                '/maxthon/i'   => 'Maxthon',
-                                '/konqueror/i' => 'Konqueror',
-                                '/mobile/i'    => 'Handheld Browser'
-                         );
-    
+            '/msie/i'      => 'Internet Explorer',
+            '/firefox/i'   => 'Firefox',
+            '/safari/i'    => 'Safari',
+            '/chrome/i'    => 'Chrome',
+            '/edge/i'      => 'Edge',
+            '/opera/i'     => 'Opera',
+            '/netscape/i'  => 'Netscape',
+            '/maxthon/i'   => 'Maxthon',
+            '/konqueror/i' => 'Konqueror',
+            '/mobile/i'    => 'Handheld Browser'
+        );
+
         foreach ($browser_array as $regex => $value)
             if (preg_match($regex, $user_agent))
                 $browser = $value;
-    
+
         return $browser;
     }
-    
 }
