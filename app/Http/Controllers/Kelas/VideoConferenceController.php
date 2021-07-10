@@ -28,6 +28,7 @@ class VideoConferenceController extends BaseController
     {
         Meet::create([
             'class_id' => $request->session()->get('kelas_id'),
+            'mapel_id' => $request->session()->get('kelas_mapel'),
             'name' => $request->name,
             'code' => strtoupper(\generateRandomString(15)),
             'date_start' => date('Y-m-d', strtotime($request->date_start))
