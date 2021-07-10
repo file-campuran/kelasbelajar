@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2021 at 06:04 PM
+-- Generation Time: Jul 10, 2021 at 06:39 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -1379,7 +1379,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `token`, `verify_token`, `created_at`, `updated_at`, `active`, `hapus`) VALUES
-(1, '4892118481', '$2y$10$VtSxgzGRFmmAxsbOanQJpe4PoQOqtvGJ53RRo1nPuAJpd87rOu8.e', NULL, NULL, NULL, '2021-07-10 08:55:24', 1, 0),
+(1, '4892118481', '$2y$10$VtSxgzGRFmmAxsbOanQJpe4PoQOqtvGJ53RRo1nPuAJpd87rOu8.e', NULL, NULL, NULL, '2021-07-10 09:35:03', 1, 0),
 (2, '9630159739', '$2y$10$jogAhsur6Si7jFJ9IcqBFe9RykIRw0tdqtYl3rMOgtO00MNAFjE3e', NULL, NULL, NULL, '2021-07-08 16:00:11', 0, 0),
 (3, '9630159739', '$2y$10$GT8DC/RyTOe3PvIevhLs3u.PApaxbdtu/ok3tWxqLeJaMv24wDqW.', NULL, NULL, NULL, NULL, 0, 0),
 (4, '2766170294', '$2y$10$8W5XSqBNaGdcUkSSoKTtMeC4bSGL1A9I5sSC0wFjO7fzF630GJyku', NULL, NULL, NULL, '2021-05-30 23:14:38', 0, 0),
@@ -1431,7 +1431,7 @@ CREATE TABLE `user_details` (
 --
 
 INSERT INTO `user_details` (`id`, `photo`, `name`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `nisn_or_nip`, `tahun_masuk`, `email`, `user_id`, `role_id`, `last_login`, `kelas_id`, `mobile_phone`, `full_address`, `mapel_id`, `status`, `hapus`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'w', NULL, NULL, NULL, '4892118481', NULL, NULL, 1, 1, '2021-04-17 09:27:20', NULL, NULL, NULL, NULL, 0, 0, NULL, NULL),
+(1, NULL, 'Administrator', NULL, NULL, NULL, '4892118481', NULL, NULL, 1, 1, '2021-07-10 16:29:34', NULL, NULL, NULL, NULL, 0, 0, NULL, NULL),
 (2, NULL, 'k', NULL, NULL, NULL, '9630159739', NULL, NULL, 2, 2, '2021-04-19 14:15:13', NULL, NULL, NULL, 2, 0, 0, NULL, NULL),
 (3, NULL, 'q', NULL, NULL, NULL, '9820460350', NULL, NULL, 3, 3, '2021-04-17 09:28:06', NULL, NULL, NULL, NULL, 0, 0, NULL, NULL),
 (4, NULL, 'coklah', 'perempuan', 'banyuwangi', '2021-04-09', '901247874124', '2019', 'verrnayb@gmail.com', 6, 3, '2021-04-19 15:17:36', NULL, NULL, NULL, NULL, 0, 0, '2021-04-19 08:17:36', '2021-04-19 08:17:36'),
