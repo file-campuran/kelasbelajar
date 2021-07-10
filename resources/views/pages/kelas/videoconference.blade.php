@@ -25,7 +25,7 @@
         <div class="d-flex justify-content-between align-items-baseline mb-2">
           <h6 class="card-title mb-0">Video Conference MIPA X-MIPA-1_MIPA Biologi</h6>
           <div class="dropdown mb-2">
-            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#TambahData">Buat Room Virtual Meeting</button>
+            <button type="button" class="btn btn-outline-success add" data-toggle="modal" data-target="#TambahData">Buat Room Virtual Meeting</button>
             <button type="button" class="btn btn-outline-danger" onclick="showSwal('passing-parameter-execute-cancel')">Cetak Excel</button>
           </div>
         </div>
@@ -43,6 +43,21 @@
               </tr>
             </thead>
             <tbody>
+              @foreach ($meets as $item)
+                  <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->name }}</td>
+                    <td>{{ $item->code }}</td>
+                    <td>{{ '0' }}</td>
+                    <td>{{ $item->date_start }}</td>
+                    <td>{{ $item->date_end == '' ? '-' : $item->date_end }}</td>
+                    <td>
+                      <a href="" class="btn btn-outline-success">Join</a>
+                      <a href="#" onclick="editData('{{ $item->id }}')" class="btn btn-outline-primary edit">Edit</a>
+                      <a href="#" onclick="deleteData('{{ $item->id }}')" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                  </tr>
+              @endforeach
             </tbody>
           </table>
         </div>
@@ -55,32 +70,83 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Form Pembuatan Virtual Meeting</h5>
+        <h5 class="modal-title title" id="exampleModalLabel">Form Pembuatan Virtual Meeting</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="POST" action="" id="addMeet">
+          @csrf
           <div class="form-group">
             <label for="recipient-name">Kapan E-meet Virtual Meeting akan dibuka ?</label>
-            <div class="input-group date datepicker" id="datePickerExample">
-              <input type="text" class="form-control"><span class="input-group-addon"><i data-feather="calendar"></i></span>
-            </div>
+            <input type="date" class="form-control" name="date_start" id="date_start" required>
+            {{-- <div class="input-group date datepicker" id="datePickerExample">
+            </div> --}}
           </div>
           <div class="form-group">
             <label for="message-text">Berikan Nama atau Judul Virtual Meeting Anda ?</label>
-            <input id="name" class="form-control" name="name" type="text">
+            <input id="name" class="form-control" name="name" id="name" type="text" required>
           </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal </button>
-        <button type="button" id="CreateMeet" class="btn btn-success">Generate Virtual Meeting</button>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal </button>
+          <button type="submit" id="CreateMeet" class="btn btn-success">Generate Virtual Meeting</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+<script type="text/javascript">
+    document.getElementsByClassName('add')[0].addEventListener('click', function(){
+      document.getElementById('addMeet').setAttribute('action', '/kelas/video_conference/store');
+      document.getElementById("addMeet").reset();
+    })
+
+   function editData(id){
+     $('#TambahData form').attr('action', '/kelas/video_conference/' + id + '/update');
+      $.ajax({
+        url: '/kelas/video_conference/' +id+ '/show',
+        method: 'get',
+        dataType: 'json',
+        success:function(data){
+          $('#TambahData').modal('show');
+          $('#name').val(data.response.name)
+          $('#date_start').val(data.response.date_start)
+        }
+      })
+   }
+    function deleteData(id) {
+      Swal.fire({
+        title: 'Apakah yakin menghapus data ini ?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+          if(result.value) {
+            $.ajax({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+              },
+              url: '/kelas/video_conference/'+id+'/delete',
+              method: 'delete',
+              success:function(data){
+                Swal.fire({
+                        title: "Success",
+                        icon: "success",
+                        text: data.messages,
+                    }).then(function () {
+                        window.location.reload();
+                    });
+              }
+            })
+
+          }
+      })
+    }
+</script>
 @endsection
 
 @push('plugin-scripts')
@@ -98,7 +164,7 @@
 
 
 <!-- Jitsi Video Conference -->
-<script src='https://meet.jit.si/external_api.js'></script>
+{{-- <script src='https://meet.jit.si/external_api.js'></script>
 <script src="https://meet.jit.si/libs/lib-jitsi-meet.min.js"></script>
 
 <script>
@@ -119,4 +185,5 @@ JitsiMeetJS.createLocalTracks().then(onLocalTracks);
 document.getElementById("CreateMeet").onclick =  room.join();
 
 
-</script>
+</script> --}}
+

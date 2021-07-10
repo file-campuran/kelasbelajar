@@ -23,7 +23,7 @@ class MapelController extends BaseController
             'showMapel'     => MasterMapel::get(),
             'showTahunAjaran'     => MasterSemester::get(),
         ];
-        return view('pages.teacher.mapel')->with($params);
+        return view('pages..kelas.teacher.mapel')->with($params);
     }
 
     public function getDataMapel(Request $request)

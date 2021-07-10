@@ -24,7 +24,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout', 'Auth\AuthController@logout')->name('logout');
     Route::get('/edit_password/{id}', 'Profile\ProfileController@edit_password');
     Route::post('/update_password_user/{id}', 'Profile\ProfileController@update_password_user');
- 
+
     //SIDEBAR
     // Route::get('*', 'Sidebar/SidebarController@index');
 
@@ -48,10 +48,14 @@ Route::group(['middleware' => ['auth']], function () {
 
     //MASUK KELAS
     Route::get('kelas', 'Kelas\KelasController@index');
-    Route::post('kelas', 'Kelas\KelasController@store');   
+    Route::post('kelas', 'Kelas\KelasController@store');
 
-     //VIDEO CONFERENCE
+    //VIDEO CONFERENCE
     Route::get('/kelas/video_conference', 'Kelas\VideoConferenceController@VideoConferenceGet');
+    Route::post('/kelas/video_conference/store', 'Kelas\VideoConferenceController@store');
+    Route::delete('kelas/video_conference/{id}/delete', 'Kelas\VideoConferenceController@destroy');
+    Route::get('kelas/video_conference/{id}/show', 'Kelas\VideoConferenceController@show');
+    Route::post('kelas/video_conference/{id}/update', 'Kelas\VideoConferenceController@update');
     //ABSENSI KELAS
     Route::resource('/kelas/absensi_kelas', 'Kelas\AbsensiKelasController');
     //KOMPETENSI DASAR
@@ -66,11 +70,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/kelas/materi_bahan_ajar', 'Kelas\MateriBahanAjarController');
     // Route::get('/kelas/materi_bahan_ajar/edit/{id}', 'Kelas\MateriBahanAjarController@edit');
     // Route::post('/kelas/materi_bahan_ajar/update/{id}', 'Kelas\MateriBahanAjarController@update');
-    
+
 
     //DAFTAR SISWA KELAS
     Route::resource('/kelas/daftar_siswa_kelas', 'Kelas\DaftarSiswaKelasController');
-    
+
 
     //cetak_excel
     // Route::resource('/daftar_siswa_kelas_excel', 'Kelas\CetakExcelController@daftar_siswa_kelas');
@@ -120,7 +124,7 @@ Route::group(['middleware' => ['auth']], function () {
     //DataMasterSiswa
     Route::resource('/Data_Master_Siswa', 'Admin\DataMasterSiswaController');
     //DataMasterGuru
-    Route::resource('/Data_Master_Guru', 'Admin\DataMasterGuruController'); 
+    Route::resource('/Data_Master_Guru', 'Admin\DataMasterGuruController');
     //JadwalPelajaran
     Route::resource('/Jadwal_Pelajaran', 'Admin\JadwalPelajaranController');
     //KompetensiInti
@@ -131,15 +135,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/Monitoring_Aktivitas_Guru', 'Admin\MonitoringAktivitasGuruController');
     //MonitoringAktivitasSiswa
     Route::resource('/Monitoring_Aktivitas_Siswa', 'Admin\MonitoringAktivitasSiswaController');
-     //MasterKKM
+    //MasterKKM
     Route::resource('/Master_KKM', 'Admin\MasterKKMController');
-     //LaporanKehadiranSiswa
+    //LaporanKehadiranSiswa
     Route::resource('/Laporan_Kehadian_Siswa', 'Admin\LaporanKehadiranSiswaController');
-     //LaporanKehadiranGuru
+    //LaporanKehadiranGuru
     Route::resource('/Laporan_Kehadian_Guru', 'Admin\LaporanKehadiranGuruController');
-     //LaporanCetakPenilaian
+    //LaporanCetakPenilaian
     Route::resource('/Laporan_Cetak_Penilaian', 'Admin\LaporanCetakPenilaianController');
-     //TahunAkademik
+    //TahunAkademik
     Route::resource('/tahun_akademik', 'Admin\TahunAkademikController');
     Route::resource('/data_kelas', 'Admin\DataKelasController');
     Route::get('/data_kelas/edit/{id}', 'Admin\DataKelasController@edit');
@@ -161,17 +165,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('penilaian_siswa_keterampilan', 'Kelas\PenilaianSiswaKeterampilanController');
     Route::resource('penilaian_siswa_pengetahuan', 'Kelas\PenilaianSiswaPengetahuanController');
-    
+
     //Download Excel
     Route::get('daftar_siswa_kelas_excel', 'Kelas\ExportExcelController@daftar_siswa_kelas');
     Route::post('daftar_siswa_kelas_excel_import', 'Kelas\ImportExcelController@daftar_siswa_kelas_import');
     Route::get('tambah_jadwal_import', 'Kelas\ImportExcelController@tambah_jadwal_import');
     Route::get('kejadian_jurnal_excel/', 'Kelas\ExportExcelController@kejadian_jurnal');
     Route::get('rekap_absen_excel/', 'Kelas\ExportExcelController@rekap_absen');
-    
-
-
-    
 });
 
 

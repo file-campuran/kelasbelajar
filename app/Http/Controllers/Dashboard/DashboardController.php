@@ -39,33 +39,30 @@ class DashboardController extends Controller
         $setting_semester = SettingSemester::first();
         $user_detail = UserDetail::where('user_id', $request->user()->id)->first();
         // dd($user_detail);
-        $daftarKelas = DaftarKelas::with(['kelas' => function($q) {
+        $daftarKelas = DaftarKelas::with(['kelas' => function ($q) { }, 'user_detail', 'blocklist'])
+            ->where('user_id', $user->user_detail->id)
+            ->whereHas('kelas.tahun_akademik', function ($q) use ($setting_semester) {
+                $q->where('id', $setting_semester->tahun_akademik->id);
+            })
+            ->first();
 
-        }, 'user_detail', 'blocklist'])
-        ->where('user_id', $user->user_detail->id )
-        ->whereHas('kelas.tahun_akademik', function($q) use($setting_semester) {
-            $q->where('id', $setting_semester->tahun_akademik->id);
-        })
-        ->first();
-     
 
-         
+
         // dd($user->user_detail->name);
 
 
         // untuk guru
-        $kelas = Kelas::with(['jadwal_pelajaran'=> function($q) use($request, $setting_semester) {
+        $kelas = Kelas::with(['jadwal_pelajaran' => function ($q) use ($request, $setting_semester) {
             $q->where('user_id', '=', $request->user()->id);
-            $q->where('semester_id' ,'=', $setting_semester->semester_id);
-            
+            $q->where('semester_id', '=', $setting_semester->semester_id);
         }])
-        ->where([
-            ['tahun_akademik_id', '=', $setting_semester->tahun_akademik_id],
-        ])
-        ->get();
-        
+            ->where([
+                ['tahun_akademik_id', '=', $setting_semester->tahun_akademik_id],
+            ])
+            ->get();
+
         // dd($setting_semester);
-        
+
         return view('dashboard', [
             'showSemester'      => $semester,
             'showMataPelajaran' => $mapel,
@@ -154,29 +151,29 @@ class DashboardController extends Controller
         //
     }
 
-    public function getKelas(Request $request) {
+    public function getKelas(Request $request)
+    {
         $setting = SettingSemester::first();
 
-        $kelas = Kelas::
-        with(['master_kelas.jurusan', 'master_kelas.kode_kelas'])
-        ->where('tahun_akademik_id', $setting->tahun_akademik_id)
-        ->whereHas('master_kelas.jurusan', function($q) use($request) {
-            $q->where('id', '=', $request->input('jurusan_id'));
-        })
+        $kelas = Kelas::with(['master_kelas.jurusan', 'master_kelas.kode_kelas'])
+            ->where('tahun_akademik_id', $setting->tahun_akademik_id)
+            ->whereHas('master_kelas.jurusan', function ($q) use ($request) {
+                $q->where('id', '=', $request->input('jurusan_id'));
+            })
 
-        ->get();
+            ->get();
         return response()->json([
             "data" => $kelas
         ]);
     }
 
-    public function getMapels(Request $request) {
+    public function getMapels(Request $request)
+    {
         $setting = SettingSemester::first();
-        
-        $mapels = MasterMapel::
-        whereNotIn('id', DB::table('master_jadwal_pelajarans')->select('mapel_id')->where('kelas_id',$request->input('kelas_id')))
-        ->where('jurusan_id', '=', $request->input('jurusan_id'))
-        ->get();
+
+        $mapels = MasterMapel::whereNotIn('id', DB::table('master_jadwal_pelajarans')->select('mapel_id')->where('kelas_id', $request->input('kelas_id')))
+            ->where('jurusan_id', '=', $request->input('jurusan_id'))
+            ->get();
 
 
         // dd($mapels);
