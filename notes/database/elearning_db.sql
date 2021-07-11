@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2021 at 06:39 PM
+-- Generation Time: Jul 11, 2021 at 09:50 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -51,7 +51,8 @@ INSERT INTO `absens` (`id`, `kelas_mapel_id`, `siswa_id`, `pertemuan`, `status`,
 (7, 11, 6, 3, NULL, NULL, '2021-05-30 23:28:54', '2021-05-30 23:28:54'),
 (8, 32, 11, 1, NULL, NULL, '2021-06-22 00:04:01', '2021-06-22 00:04:01'),
 (9, 33, 11, 1, NULL, NULL, '2021-06-22 00:06:44', '2021-06-22 00:06:44'),
-(10, 36, 9, 1, NULL, NULL, '2021-07-08 20:14:36', '2021-07-08 20:14:36');
+(10, 36, 9, 1, NULL, NULL, '2021-07-08 20:14:36', '2021-07-08 20:14:36'),
+(11, 39, 6, 1, NULL, NULL, '2021-07-10 23:07:32', '2021-07-10 23:07:32');
 
 -- --------------------------------------------------------
 
@@ -293,7 +294,7 @@ INSERT INTO `master_jadwal_pelajarans` (`id`, `kelas_id`, `semester_id`, `mapel_
 (25, 3, 1, 2, 16, 0, 75, 2, '2021-06-08 01:59:36', '2021-06-08 01:59:36'),
 (26, 3, 1, 3, 16, 0, 75, 2, '2021-06-08 02:00:08', '2021-06-08 02:00:08'),
 (27, 3, 1, 1, 16, 0, 75, 2, '2021-06-08 02:00:23', '2021-06-08 02:00:23'),
-(28, 4, 1, 3, 16, 0, 75, 7, '2021-06-13 00:55:48', '2021-06-13 00:55:48'),
+(28, 4, 1, 3, 16, 0, 75, 7, '2021-06-13 00:55:48', '2021-07-11 00:47:49'),
 (29, 4, 1, 2, 16, 0, 75, 2, '2021-06-19 04:13:21', '2021-06-19 04:13:21'),
 (30, 6, 1, 2, 16, 0, 75, 2, '2021-06-19 04:14:03', '2021-06-19 04:14:03'),
 (31, 4, 1, 1, 16, 0, 75, 2, '2021-06-19 04:14:24', '2021-06-19 04:14:24'),
@@ -825,6 +826,7 @@ CREATE TABLE `meets` (
   `mapel_id` bigint(20) NOT NULL,
   `name` varchar(255) NOT NULL,
   `code` varchar(255) NOT NULL,
+  `pertemuan` int(11) NOT NULL,
   `date_start` date NOT NULL,
   `date_end` date DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -1379,14 +1381,14 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `token`, `verify_token`, `created_at`, `updated_at`, `active`, `hapus`) VALUES
-(1, '4892118481', '$2y$10$VtSxgzGRFmmAxsbOanQJpe4PoQOqtvGJ53RRo1nPuAJpd87rOu8.e', NULL, NULL, NULL, '2021-07-10 09:35:03', 1, 0),
+(1, '4892118481', '$2y$10$VtSxgzGRFmmAxsbOanQJpe4PoQOqtvGJ53RRo1nPuAJpd87rOu8.e', NULL, NULL, NULL, '2021-07-11 00:37:09', 0, 0),
 (2, '9630159739', '$2y$10$jogAhsur6Si7jFJ9IcqBFe9RykIRw0tdqtYl3rMOgtO00MNAFjE3e', NULL, NULL, NULL, '2021-07-08 16:00:11', 0, 0),
 (3, '9630159739', '$2y$10$GT8DC/RyTOe3PvIevhLs3u.PApaxbdtu/ok3tWxqLeJaMv24wDqW.', NULL, NULL, NULL, NULL, 0, 0),
 (4, '2766170294', '$2y$10$8W5XSqBNaGdcUkSSoKTtMeC4bSGL1A9I5sSC0wFjO7fzF630GJyku', NULL, NULL, NULL, '2021-05-30 23:14:38', 0, 0),
 (5, '7724909893', '$2y$10$iZGAwJi3uNiV7d04AoRC3.wqIdXVDITpcVoBSIVLzVjd9nKlGigM.', NULL, NULL, NULL, NULL, 0, 0),
 (6, '901247874124', '$2y$10$zDiaF3oRkHe4/NUyXIb8pe8bpkhoYlDKW4YhjYYOq7NMkZ3gu3w2m', NULL, NULL, '2021-04-19 08:17:36', '2021-07-09 07:41:32', 0, 0),
-(7, '222222', '$2y$10$JWFeuBSaWGMckKr4l3oqee36fXI0DH2BCTudQy8EGMnY5sRIgLsh6', NULL, NULL, '2021-04-19 08:19:29', '2021-07-10 08:55:03', 0, 0),
-(8, '3123124124', '$2y$10$PAyngHaRebsHcTAiH9Ey5O8mttoT8NoY3p/9G5tFn6c2F5QC08asm', NULL, NULL, '2021-04-19 09:00:06', '2021-07-09 07:43:26', 0, 0),
+(7, '222222', '$2y$10$JWFeuBSaWGMckKr4l3oqee36fXI0DH2BCTudQy8EGMnY5sRIgLsh6', NULL, NULL, '2021-04-19 08:19:29', '2021-07-11 00:37:14', 1, 0),
+(8, '3123124124', '$2y$10$PAyngHaRebsHcTAiH9Ey5O8mttoT8NoY3p/9G5tFn6c2F5QC08asm', NULL, NULL, '2021-04-19 09:00:06', '2021-07-11 00:18:54', 0, 0),
 (9, 'bb', '$2y$10$l5UMlxUD/Iy3hRVprdUC5eaDWMTgoRjwNpnMUUzmRYVO.CZXTZhFu', NULL, NULL, '2021-05-07 12:59:57', '2021-05-07 12:59:57', 0, 0),
 (10, '345345345', '$2y$10$OXFMySihFs3x7zNDkp/duu/.O6PkUnoTWoe8uV67zjLgpp8S/ia0W', NULL, NULL, '2021-06-17 07:22:16', '2021-07-08 20:08:04', 0, 0),
 (11, '199009052019031024', '$2y$10$h/XX2QpXznIdEk9NRuQ3/eikD6OejDJgYMkto85aPBA428OWg8PpO', NULL, NULL, '2021-06-17 07:23:06', '2021-06-17 07:23:06', 0, 0),
@@ -1736,7 +1738,7 @@ ALTER TABLE `user_details`
 -- AUTO_INCREMENT for table `absens`
 --
 ALTER TABLE `absens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `block_kelas_mapels`
@@ -1892,7 +1894,7 @@ ALTER TABLE `materi_bahan_belajars`
 -- AUTO_INCREMENT for table `meets`
 --
 ALTER TABLE `meets`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `menus`

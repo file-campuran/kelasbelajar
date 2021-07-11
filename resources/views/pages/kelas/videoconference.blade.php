@@ -36,7 +36,8 @@
                 <th>#</th>
                 <th>Nama Meeting</th>
                 <th>Kode</th>
-                <th>partisipan</th>
+                <th>Partisipan</th>
+                <th>Pertemuan</th>
                 <th>Tanggal Meeting</th>
                 <th>Selesai</th>
                 <th>Aksi</th>
@@ -49,6 +50,7 @@
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->code }}</td>
                     <td>{{ '0' }}</td>
+                    <td>Pertemuan ke-{{ $item->pertemuan }}</td>
                     <td>{{ $item->date_start }}</td>
                     <td>{{ $item->date_end == '' ? '-' : $item->date_end }}</td>
                     <td>
@@ -77,22 +79,32 @@
       </div>
       <div class="modal-body">
         <form method="POST" action="" id="addMeet">
-          @csrf
-          <div class="form-group">
-            <label for="recipient-name">Kapan E-meet Virtual Meeting akan dibuka ?</label>
-            <input type="date" class="form-control" name="date_start" id="date_start" required>
-            {{-- <div class="input-group date datepicker" id="datePickerExample">
-            </div> --}}
+            @csrf
+            <div class="form-group">
+              <label for="recipient-name">Kapan E-meet Virtual Meeting akan dibuka ?</label>
+              <input type="date" class="form-control" name="date_start" id="date_start" required>
+              {{-- <div class="input-group date datepicker" id="datePickerExample">
+              </div> --}}
+            </div>
+            <div class="form-group">
+              <label for="message-text">Berikan Nama atau Judul Virtual Meeting Anda ?</label>
+              <input id="name" class="form-control" name="name" id="name" type="text" required>
+            </div>
+            <div class="form-group">
+              <label for="message-text">Pertemuan</label>
+              <select name="pertemuan" class="form-control" id="pertemuan">
+                @for($pt = 1; $pt <= $pertemuan->pertemuan; $pt++)
+                  <option value="{{$pt}}">
+                    Pertemuan {{$pt}}
+                  </option>
+                @endfor
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="message-text">Berikan Nama atau Judul Virtual Meeting Anda ?</label>
-            <input id="name" class="form-control" name="name" id="name" type="text" required>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal </button>
+            <button type="submit" id="CreateMeet" class="btn btn-success">Generate Virtual Meeting</button>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal </button>
-          <button type="submit" id="CreateMeet" class="btn btn-success">Generate Virtual Meeting</button>
-        </div>
       </form>
     </div>
   </div>
@@ -113,6 +125,7 @@
           $('#TambahData').modal('show');
           $('#name').val(data.response.name)
           $('#date_start').val(data.response.date_start)
+          $('#pertemuan').val(data.response.pertemuan)
         }
       })
    }
