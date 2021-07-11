@@ -51,7 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('kelas', 'Kelas\KelasController@store');
 
     //VIDEO CONFERENCE
-    Route::get('/kelas/video_conference', 'Kelas\VideoConferenceController@VideoConferenceGet');
+    Route::get('/kelas/video_conference', 'Kelas\VideoConferenceController@VideoConferenceGet')->name('video-conference.get');
     Route::post('/kelas/video_conference/store', 'Kelas\VideoConferenceController@store');
     Route::delete('kelas/video_conference/{id}/delete', 'Kelas\VideoConferenceController@destroy');
     Route::get('kelas/video_conference/{id}/show', 'Kelas\VideoConferenceController@show');
@@ -87,7 +87,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/kelas/penilaian_pengetahuan', 'Kelas\PenilaianPengetahuanController');
     Route::get('/kelas/penilaian_pengetahuan/edit/{id}', 'Kelas\PenilaianPengetahuanController@edit');
     Route::post('/kelas/penilaian_pengetahuan/update/{id}', 'Kelas\PenilaianPengetahuanController@update');
-    //PENILAIAN PENGETAHUAN (KD4)  
+    //PENILAIAN PENGETAHUAN (KD4)
     Route::resource('/kelas/penilaian_keterampilan', 'Kelas\PenilaianKeterampilanController');
     Route::get('/kelas/penilaian_keterampilan/edit/{id}', 'Kelas\PenilaianKeterampilanController@edit');
     Route::post('/kelas/penilaian_keterampilan/update/{id}', 'Kelas\PenilaianKeterampilanController@update');
@@ -109,7 +109,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/kelas/monitor_aktifitas', 'Kelas\AbsensiKelasController@monitor_aktifitas_siswa');
 
 
-    // Raport 
+    // Raport
     Route::resource('kelas/rekap_raport', 'Kelas\RekapRaportController');
 
     //Admnistrator
@@ -172,6 +172,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('tambah_jadwal_import', 'Kelas\ImportExcelController@tambah_jadwal_import');
     Route::get('kejadian_jurnal_excel/', 'Kelas\ExportExcelController@kejadian_jurnal');
     Route::get('rekap_absen_excel/', 'Kelas\ExportExcelController@rekap_absen');
+
+    Route::get('meeting_room/{code}', 'Kelas\VideoConferenceController@meetingRoom')->name('join-meeting-room');
+    Route::get('meeting_room/{code}/end', 'Kelas\VideoConferenceController@endMeetingRoom')->middleware('role:guru')->name('end-meeting-room');
 });
 
 

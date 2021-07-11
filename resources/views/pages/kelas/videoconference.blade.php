@@ -52,7 +52,7 @@
                     <td>{{ $item->date_start }}</td>
                     <td>{{ $item->date_end == '' ? '-' : $item->date_end }}</td>
                     <td>
-                      <a href="" class="btn btn-outline-success">Join</a>
+                      <a href="{{ route('join-meeting-room', ['code' => $item->code]) }}" class="btn btn-outline-success">Join</a>
                       <a href="#" onclick="editData('{{ $item->id }}')" class="btn btn-outline-primary edit">Edit</a>
                       <a href="#" onclick="deleteData('{{ $item->id }}')" class="btn btn-outline-danger">Delete</a>
                     </td>

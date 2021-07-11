@@ -11,6 +11,7 @@ use App\Model\MasterJurusan;
 use App\Model\MasterKelas;
 use App\Model\MasterMapel;
 use App\Model\MasterSemester;
+use App\Model\Meet;
 use Illuminate\Http\Request;
 use App\Model\Menu;
 use App\Model\SettingSemester;
@@ -39,6 +40,8 @@ class DashboardController extends Controller
         $jurusan = MasterJurusan::get();
         $setting_semester = SettingSemester::first();
         $user_detail = UserDetail::where('user_id', $request->user()->id)->first();
+
+
         // dd($user_detail);
         $daftarKelas = DaftarKelas::with(['kelas' => function ($q) { }, 'user_detail', 'blocklist'])
             ->where('user_id', $user->user_detail->id)

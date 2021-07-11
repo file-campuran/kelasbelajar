@@ -59,4 +59,24 @@ class VideoConferenceController extends BaseController
         ]);
         return redirect('kelas/video_conference');
     }
+
+    public function meetingRoom($code)
+    {
+        $meet = Meet::where('code', $code)->first();
+
+        if (!$meet) return abort(400, 'Kode meeting "' . $code . '" tidak ditemukan');
+
+        $meet->date_start = Carbon::parse($meet->date_start);
+        $meet->date_end = $meet->date_end ? Carbon::parse($meet->date_end) : null;
+
+        return view('pages.kelas.meeting_room', compact('meet'));
+    }
+
+    public function endMeetingRoom($code)
+    {
+        $meet = Meet::where('code', $code)->first();
+        $meet->date_end = Carbon::now();
+        $meet->save();
+        return response()->json(['status' => 'success', 'meet_code' => $meet->code]);
+    }
 }

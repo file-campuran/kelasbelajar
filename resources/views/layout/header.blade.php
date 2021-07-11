@@ -14,13 +14,13 @@
           <i data-feather="log-out"></i>
         </a> --}}
         <div class="figure">
-          <img src="{{ url('https://icon-library.com/images/avatar-icon-png/avatar-icon-png-25.jpg') }}" alt="">
+          <img src="{{ asset('photo/profile.svg') }}" alt="">
         </div>
       </a>
       <div class="dropdown-menu" aria-labelledby="profileDropdown">
         <div class="dropdown-header d-flex flex-column align-items-center">
           <div class="figure mb-3">
-            <img src="{{ url('https://icon-library.com/images/avatar-icon-png/avatar-icon-png-25.jpg') }}" alt="">
+            <img src="{{ asset('photo/profile.svg') }}" alt="">
           </div>
           <div class="info text-center">
             <p class="name font-weight-bold mb-0">{{ session()->get('user')['name'] }}</p>
