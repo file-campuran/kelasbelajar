@@ -67,7 +67,7 @@ class DashboardController extends Controller
 
         if ($user->user_detail->role->name_role == 'siswa') {
 
-            $meets = Meet::where('class_id', $daftarKelas->kelas_id)->whereNull('date_end')->get();
+            $meets = Meet::where('class_id', $daftarKelas->kelas_id)->where('date_start', '>=', date('Y-m-d'))->whereNull('date_end')->get();
         } else {
             $meets = null;
         }
