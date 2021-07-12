@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Meet extends Model
 {
     protected $fillable = ['class_id', 'mapel_id', 'name', 'code', 'pertemuan', 'date_start', 'date_end'];
+
+    public function mapel()
+    {
+        return $this->hasMany(MasterMapel::class);
+    }
 }

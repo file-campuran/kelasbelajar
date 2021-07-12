@@ -15,15 +15,22 @@ class MasterMapel extends Model
         'kkm_id'
     ];
 
-    public function jurusan () {
+    public function jurusan()
+    {
         return $this->belongsTo('App\Model\MasterJurusan', 'jurusan_id', 'id');
     }
 
-    public function kkm() {
+    public function kkm()
+    {
         return $this->belongsTo('App\Model\MasterKKM', 'kkm_id', 'id');
     }
 
-    public function kelas_mapel() {
+    public function kelas_mapel()
+    {
         return $this->hasMany(MasterJadwalPelajaran::class, 'mapel_id', 'id');
+    }
+    public function meet()
+    {
+        return $this->belongsTo(Meet::class);
     }
 }

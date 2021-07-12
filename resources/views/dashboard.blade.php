@@ -51,47 +51,82 @@
         <h1 class="text-lg mb-6  text-gray-800 font-bold ">
             Daftar Video Conference
         </h1>
-
-        @if($daftarKelas != null)
-        <div class="mt-4  grid  lg:grid-cols-3  gap-6">
-            @foreach($daftarKelas->kelas->jadwal_pelajaran as $row)
-
+        <div class="grid md:gap-8 lg:gap-6 gap-4 md:grid-cols-2 mt-4 md:mt-6 lg:mt-8 lg:grid-cols-3">
+            @foreach($meets as $row)
+    
             <div
-                class="w-full mt-4 hover:mt-0 hover:shadow-md mapel transition-all duration-300 cursor-pointer hover:mt-0 p-4 bg-white rounded-lg flex flex-col">
-                <h1 class="capitalize text-gray-700 mb-2 text-base">
-                    Kelas {{$row->master_mapel->nama_mapel}}
-                </h1>
-
-                <span class="text-gray text-xs">
-                    {{$user->user_detail->name}}
-                </span>
-                <form action="{{ url('kelas_mapel') }}" method="post" class="mt-2">
+                class="card w-full md:p-6 p-4 transition-all duration-300 text-gray-600 bg-gray-200 rounded-xl hover:shadow-xl">
+                <div class="header uppercase text-center font-bold">
+                    {{-- {{$row->master_kelas->kode_kelas->kode}} {{$row->master_kelas->jurusan->jurusan}} --}}
+                    {{$row->name}} 
+                </div>
+                <form action="{{ url('kelas_mapel/absens')}}" method="post">
                     @csrf
-                    <input type="text" hidden name="kelas_mapel_id" value="{{$row->id}}">
-
-                    @if($daftarKelas->block_from_mapel($row->id) == null)
-                    <button type="submit" class="py-1 rounded-lg w-full bg-blue-400 text-white">
-                        Masuk
+                    <div class="body md:mt-4 mt-3 mb-3">
+                        <div>
+                            <table class="text-xs text-xs-500 font-semibold">
+                                <tr>
+                                    <td width="100px">
+                                        Tangal Mulai
+                                    </td>
+                                    <td width="20px">
+                                        :
+                                    </td>
+                                    <td>
+                                        {{$row->date_start}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Mapel
+                                    </td>
+                                    <td width="20px">
+                                        :
+                                    </td>
+                                    <td>
+                                        @if ($daftarKelas->kelas_id == $row->class_id)
+                                            {{ $daftarKelas->kelas->jadwal_pelajaran[0]->master_mapel->nama_mapel }}                                            
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Guru
+                                    </td>
+                                    <td width="20px">
+                                        :
+                                    </td>
+                                    <td>
+                                        @if ($daftarKelas->kelas_id == $row->class_id)
+                                            {{ $daftarKelas->kelas->jadwal_pelajaran[0]->user->user_detail->name }}                                            
+                                         @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Pertemuan
+                                    </td>
+                                    <td width="20px">
+                                        :
+                                    </td>
+                                    <td>
+                                        {{ $row->pertemuan }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                    </div>
+                    <input type="hidden" name="absen" value="{{ $row->pertemuan }}">
+                    <input type="hidden" name="source" value="{{ $row->code }}">
+                    <button type="submit" class="mt-4 font-bold w-full px-4 py-2 text-center rounded-lg bg-blue-400 text-white btn-block">
+                        Join
                     </button>
-                    @else
-                    <button type="button" disabled class="py-1 rounded-lg w-full bg-red-400 text-white">
-                        Terbanned
-                    </button>
-
-                    @endif
-
                 </form>
-
-
             </div>
+    
             @endforeach
         </div>
-        @else
-        <h1 class="text-gray-600 text-sm font-semibold">
-            Belum ada mata pelajaran
-        </h1>
-
-        @endif
     </div>
     <div class="w-full mt-8">
         <h1 class="text-lg mb-6  text-gray-800 font-bold ">
@@ -116,11 +151,11 @@
                     <input type="text" hidden name="kelas_mapel_id" value="{{$row->id}}">
 
                     @if($daftarKelas->block_from_mapel($row->id) == null)
-                    <button type="submit" class="py-1 rounded-lg w-full bg-blue-400 text-white">
+                    <button type="submit" class="pmt-4 font-bold w-full px-4 py-2 text-center rounded-lg bg-blue-400 text-white btn-block">
                         Masuk
                     </button>
                     @else
-                    <button type="button" disabled class="py-1 rounded-lg w-full bg-red-400 text-white">
+                    <button type="button" disabled class="mt-4 font-bold w-full px-4 py-2 text-center rounded-lg bg-red-400 text-white btn-block">
                         Terbanned
                     </button>
 
@@ -165,7 +200,7 @@
                         class="flex items-center md:py-3 py-1 md:px-4 px-3 bg-blue-500 text-white rounded-lg">
 
                         <i data-feather="eye" class="btn-icon-prepend"></i> <span class="ml-2 ">
-                            edit profile
+                            Edit Profile
                         </span>
 
                     </a>

@@ -43,7 +43,7 @@ class DashboardController extends Controller
 
 
         // dd($user_detail);
-        $daftarKelas = DaftarKelas::with(['kelas' => function ($q) { }, 'user_detail', 'blocklist'])
+        $daftarKelas = DaftarKelas::with(['kelas.jadwal_pelajaran.master_mapel' => function ($q) { }, 'user_detail', 'blocklist'])->with('kelas.jadwal_pelajaran.user.user_detail')
             ->where('user_id', $user->user_detail->id)
             ->whereHas('kelas.tahun_akademik', function ($q) use ($setting_semester) {
                 $q->where('id', $setting_semester->tahun_akademik->id);
@@ -65,6 +65,14 @@ class DashboardController extends Controller
             ])
             ->get();
 
+        if ($user->user_detail->role->name_role == 'siswa') {
+
+            $meets = Meet::where('class_id', $daftarKelas->kelas_id)->whereNull('date_end')->get();
+        } else {
+            $meets = null;
+        }
+        // return dd($daftarKelas);
+
         // dd($setting_semester);
 
         return view('dashboard', [
@@ -76,6 +84,7 @@ class DashboardController extends Controller
             'kelas' => $kelas,
             'user' => $user,
             'user_detail' => $user_detail,
+            'meets' => $meets
             // 'menu' => $menu
         ]);
     }
