@@ -93,13 +93,7 @@
             </div>
             <div class="form-group">
               <label for="message-text">Pertemuan</label>
-              <select name="pertemuan" class="form-control" id="pertemuan">
-                {{-- @for($pt = 1; $pt <= $pertemuan->pertemuan; $pt++)
-                  <option value="{{$pt}}">
-                    Pertemuan {{$pt}}
-                  </option>
-                @endfor --}}
-              </select>
+              <select name="pertemuan" class="form-control" id="pertemuan"></select>
             </div>
           </div>
           <div class="modal-footer">
