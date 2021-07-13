@@ -52,6 +52,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //VIDEO CONFERENCE
     Route::get('/kelas/video_conference', 'Kelas\VideoConferenceController@VideoConferenceGet')->name('video-conference.get');
+    Route::get('/kelas/video_conference/get-pertemuan', 'Kelas\VideoConferenceController@getLatestMeeting')->name('video-conference.get-meeting');
     Route::post('/kelas/video_conference/store', 'Kelas\VideoConferenceController@store');
     Route::delete('kelas/video_conference/{id}/delete', 'Kelas\VideoConferenceController@destroy');
     Route::get('kelas/video_conference/{id}/show', 'Kelas\VideoConferenceController@show');
@@ -175,6 +176,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('meeting_room/{code}', 'Kelas\VideoConferenceController@meetingRoom')->name('join-meeting-room');
     Route::get('meeting_room/{code}/end', 'Kelas\VideoConferenceController@endMeetingRoom')->middleware('role:guru')->name('end-meeting-room');
+    // Route::get('vide')
 });
 
 

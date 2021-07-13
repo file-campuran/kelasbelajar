@@ -25,7 +25,7 @@
         <div class="d-flex justify-content-between align-items-baseline mb-2">
           <h6 class="card-title mb-0">Video Conference MIPA X-MIPA-1_MIPA Biologi</h6>
           <div class="dropdown mb-2">
-            <button type="button" class="btn btn-outline-success add" data-toggle="modal" data-target="#TambahData">Buat Room Virtual Meeting</button>
+            <button type="button" class="btn btn-outline-success add add-meeting" data-target="#TambahData">Buat Room Virtual Meeting</button>
             <button type="button" class="btn btn-outline-danger" onclick="showSwal('passing-parameter-execute-cancel')">Cetak Excel</button>
           </div>
         </div>
@@ -36,7 +36,6 @@
                 <th>#</th>
                 <th>Nama Meeting</th>
                 <th>Kode</th>
-                <th>Partisipan</th>
                 <th>Pertemuan</th>
                 <th>Tanggal Meeting</th>
                 <th>Selesai</th>
@@ -49,14 +48,15 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->code }}</td>
-                    <td>{{ '0' }}</td>
                     <td>Pertemuan ke-{{ $item->pertemuan }}</td>
                     <td>{{ $item->date_start }}</td>
                     <td>{{ $item->date_end == '' ? '-' : $item->date_end }}</td>
                     <td>
-                      <a href="{{ route('join-meeting-room', ['code' => $item->code]) }}" class="btn btn-outline-success">Join</a>
-                      <a href="#" onclick="editData('{{ $item->id }}')" class="btn btn-outline-primary edit">Edit</a>
-                      <a href="#" onclick="deleteData('{{ $item->id }}')" class="btn btn-outline-danger">Delete</a>
+                        @if (is_null($item->date_end))
+                            <a href="{{ route('join-meeting-room', ['code' => $item->code]) }}" class="btn btn-outline-success">Join</a>
+                            <a href="#" onclick="editData('{{ $item->id }}')" class="btn btn-outline-primary edit">Edit</a>
+                            <a href="#" onclick="deleteData('{{ $item->id }}')" class="btn btn-outline-danger">Delete</a>
+                        @endif
                     </td>
                   </tr>
               @endforeach
@@ -78,6 +78,7 @@
         </button>
       </div>
       <div class="modal-body">
+          <input type="hidden" name="max_pertemuan_count" value="{{ $pertemuan->pertemuan }}">
         <form method="POST" action="" id="addMeet">
             @csrf
             <div class="form-group">
@@ -93,11 +94,11 @@
             <div class="form-group">
               <label for="message-text">Pertemuan</label>
               <select name="pertemuan" class="form-control" id="pertemuan">
-                @for($pt = 1; $pt <= $pertemuan->pertemuan; $pt++)
+                {{-- @for($pt = 1; $pt <= $pertemuan->pertemuan; $pt++)
                   <option value="{{$pt}}">
                     Pertemuan {{$pt}}
                   </option>
-                @endfor
+                @endfor --}}
               </select>
             </div>
           </div>
@@ -110,9 +111,32 @@
   </div>
 </div>
 <script type="text/javascript">
-    document.getElementsByClassName('add')[0].addEventListener('click', function(){
+    document.getElementsByClassName('add')[0].addEventListener('click', async function(){
+
+      let minimalMeetingOpt = 1;
+
       document.getElementById('addMeet').setAttribute('action', '/kelas/video_conference/store');
       document.getElementById("addMeet").reset();
+
+      const { data } = await $.ajax({
+          url: `{{ route('video-conference.get-meeting') }}`,
+          dataType: 'json'
+      });
+
+      $('select[name=pertemuan]').empty();
+
+      if (data.meet?.pertemuan) minimalMeetingOpt = data.meet.pertemuan + 1;
+
+      for (let i = minimalMeetingOpt; i <= $('input[name=max_pertemuan_count]').val(); i++) {
+          $('select[name=pertemuan]').append(`
+                <option value="${i}">
+                    Pertemuan ${i}
+                </option>
+          `);
+      }
+
+      $($(this).data('target')).modal('show');
+
     })
 
    function editData(id){

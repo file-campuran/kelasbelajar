@@ -10,6 +10,7 @@ use App\Model\MasterJadwalPelajaran;
 use DB;
 use App\Model\Meet;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth as IlluminateAuth;
 
 class VideoConferenceController extends BaseController
 {
@@ -41,9 +42,11 @@ class VideoConferenceController extends BaseController
 
     public function store(Request $request)
     {
+
         Meet::create([
             'class_id' => $request->session()->get('kelas_id'),
             'mapel_id' => $request->session()->get('kelas_mapel'),
+            'user_id' => $request->session()->get('user')['id'],
             'name' => $request->name,
             'pertemuan' => $request->pertemuan,
             'code' => strtoupper(\generateRandomString(15)),
@@ -95,5 +98,14 @@ class VideoConferenceController extends BaseController
         $meet->date_end = Carbon::now();
         $meet->save();
         return response()->json(['status' => 'success', 'meet_code' => $meet->code]);
+    }
+
+    public function getLatestMeeting(Request $request)
+    {
+        $meet = Meet::where('class_id', $request->session()->get('kelas_id'))->where('mapel_id', $request->session()->get('kelas_mapel'))->where('user_id', $request->session()->get('user')['id'])->orderBy('pertemuan', 'DESC')->first();
+        return response()->json([
+            'status' => 'success',
+            'data' => array_merge(compact('meet'), ['request' => $request->session()->all()]),
+        ]);
     }
 }
